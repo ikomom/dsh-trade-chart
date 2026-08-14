@@ -80,7 +80,7 @@ try {
   const kline = Array.from({ length: 30 }, (_, i) => ({ time: 'D' + i, open: 10, high: 12, low: 9, close: 11, volume: 100 }));
   const block = (chart) => ({ kind: 'r', callId: 'c1', call: { name: 'trade_chart', argsRaw: JSON.stringify({ chart }) }, content: [], isError: false });
   const h1 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'kline', kline, pivots: true, annotations: [{ type: 'hline', price: 10, label: '支撑' }] }) }));
-  if (h1.includes('<svg') && h1.includes('MA5') && h1.includes('支撑') && h1.includes('⧉ 复制标注')) ok('K线渲染（标注/均线/工具栏）');
+  if (h1.includes('<svg') && h1.includes('MA5') && h1.includes('支撑')) ok('K线渲染（标注/均线）');
   else fail('K线渲染异常');
   const h2 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'line', series: [{ name: 'a', data: [1, 2, 3] }] }) }));
   if (h2.includes('<svg')) ok('折线渲染');

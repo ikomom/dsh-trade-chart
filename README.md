@@ -5,7 +5,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-%5E22.19-339933?style=flat-square&logo=nodedotjs&logoColor=white)](package.json)
 [![DSH profiles](https://img.shields.io/badge/DSH-Web-5B4CF0?style=flat-square)](cordis.patch.yml)
 
-**DeepSeek Harness 交易图表插件**：模型调用 `trade_chart` 工具后，K线/折线/柱状/面积图直接渲染在对话流中——波段自动标注、自由标注、滚轮缩放、上下左右自由拖动、手绘工具栏。
+**DeepSeek Harness 交易图表插件**：模型调用 `trade_chart` 工具后，K线/折线/柱状/面积图直接渲染在对话流中——波段自动标注、自由标注、滚轮缩放、上下左右自由拖动。
 
 纯自绘 SVG，零外部依赖（不加载 CDN、不引入图表库），数据来自会话中的行情技能（longbridge / hithink 等）。
 
@@ -19,7 +19,6 @@
 | 自由标注 | `annotations`：pivot / hline / trendline / arrow / rect / note，支持自定义颜色/标签 |
 | 鼠标缩放 | 滚轮缩放（以鼠标位置为锚点），缩放后 **y 轴锁定显示范围**（不再跳动） |
 | 自由拖动 | ⌖ 模式按住拖动：**左右=时间平移，上下=价格区间平移**（缩放后可上下查看）；双击或 ⟲ 复位 |
-| 手绘工具栏 | 趋势线 / 箭头 / 矩形 / 水平线 / 文字 / 删除；「⧉ 复制标注」一键导出为参数 |
 | 均线正确性 | MA 基于全量数据计算，缩放/平移后按索引映射，窗口边缘不缺历史 |
 | 大数据量 | >800 根自动聚合显示（保形）；>5000 根拒绝并提示改用大周期 |
 
@@ -79,8 +78,6 @@ dsh plugin --profile web remove @ikonon/dsh-trade-chart
 - **滚轮**：缩放（以鼠标位置为锚点）；缩放后 Y 轴锁定，不再因窗口变化跳动
 - **⌖ 查看模式拖动**：左右平移时间、**上下平移价格区间**（缩放后）
 - **双击 / ⟲ 按钮**：复位视图（恢复全览与 Y 轴自适应）
-- **工具栏**：╱ 趋势线 · ➔ 箭头 · ▭ 矩形 · ― 水平线 · Ｔ 文字 · ✕ 删除（鼠标拖拽绘制）
-- **⧉ 复制标注**：把当前所有标注（含手绘）复制为 `annotations` JSON，粘贴给模型即可固化到对话
 
 ## trade_chart 工具参数
 
@@ -128,7 +125,7 @@ node scripts/verify.mjs   # 推送前验证：语法 + 宿主冒烟 + 客户端�
 dsh-trade-chart/
 ├── lib/
 │   ├── index.js          # 宿主端：trade_chart 工具注册、参数校验、波段检测、摘要
-│   └── client.js         # 客户端：SVG 图表卡片（渲染/标注/缩放/自由拖动/手绘）
+│   └── client.js         # 客户端：SVG 图表卡片（渲染/标注/缩放/自由拖动）
 ├── scripts/
 │   └── verify.mjs        # 推送前验证脚本
 ├── cordis.patch.yml      # profile 组合补丁（挂载插件行）
