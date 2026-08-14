@@ -1,0 +1,6 @@
+# dsh-trade-chart bundle patch: mounts the plugin into a profile layer stack.
+# The row id `trade-chart` can be overridden / disabled from the profile's
+# own cordis.patch.yml with the same id.
+- insert:
+    - id: trade-chart
+      name: '@ikonon/dsh-trade-chart'

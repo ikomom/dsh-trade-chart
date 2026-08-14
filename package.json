@@ -1,0 +1,44 @@
+{
+  "name": "@ikonon/dsh-trade-chart",
+  "version": "0.1.0",
+  "description": "在对话中直接渲染交易图表：trade_chart 工具 + 内联 SVG 图表卡片（K线/折线/柱状/面积，含成交量副图、MA 均线、波段与自由标注、滚轮缩放平移、手绘工具栏），数据来自行情技能（longbridge / hithink）。",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh-plugin",
+    "trade-chart",
+    "kline",
+    "candlestick",
+    "trading"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-tool",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
+    "react": "^18.2.0"
+  },
+  "license": "MIT"
+}
