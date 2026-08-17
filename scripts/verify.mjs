@@ -28,6 +28,13 @@ for (const f of ['lib/index.js', 'lib/client.js', 'cordis.patch.yml']) {
   }
 }
 
+// 红线：@deepseek-ai/dsh-* 核心包只允许出现在 peerDependencies，
+// 放进 dependencies 会让 pnpm 在宿主 profile 安装第二份 DSH 核心，破坏会话恢复（见 issue #1）。
+const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+const coreInDeps = Object.keys(pkg.dependencies || {}).filter((d) => d.startsWith('@deepseek-ai/dsh-'));
+if (coreInDeps.length === 0) ok('dependencies 不含 @deepseek-ai/dsh-* 核心包（红线）');
+else fail('dependencies 含核心包: ' + coreInDeps.join(', ') + '（应仅保留在 peerDependencies）');
+
 // ---------- 2. 宿主冒烟（真实 DSH 依赖解析，依赖位于插件 node_modules） ----------
 console.log('== 2. 宿主冒烟 ==');
 try {

@@ -45,7 +45,9 @@ dsh plugin --profile web add @ikonon/dsh-trade-chart
 
 > `dsh plugin` 会把声明了 `dsh.bundle` 的依赖自动写进 profile 的 bundles 列表。
 
-**内部依赖**：宿主端依赖 `@deepseek-ai/dsh-tools`（已在 `dependencies` 声明）。该包为 DSH 内部包，本机通过 `node_modules/@deepseek-ai/dsh-tools` 链接到 DSH 部署目录安装（junction）；其他机器安装时请确认该依赖可用。
+**内部依赖**：宿主端依赖 `@deepseek-ai/dsh-tools`，仅在 `peerDependencies` 声明，由 DSH 宿主组合提供；本地开发时该包以 junction 链接到 DSH 部署目录的 `node_modules/@deepseek-ai/dsh-tools`。
+
+> ⚠️ **插件红线**：`@deepseek-ai/dsh-*` 核心包**禁止**放进 `dependencies`——否则 pnpm 会在宿主 profile 装出第二份 DSH 核心，导致既有会话全部无法恢复（曾发生，见 [issue #1](https://github.com/ikomom/dsh-trade-chart/issues/1)）。`scripts/verify.mjs` 已内置该检查，推送前自动拦截。
 
 ## 验证与生效
 
