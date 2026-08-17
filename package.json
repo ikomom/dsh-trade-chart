@@ -1,6 +1,6 @@
 {
   "name": "@ikonon/dsh-trade-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "在对话中直接渲染交易图表：trade_chart 工具 + 内联 SVG 图表卡片（K线/折线/柱状/面积，含成交量副图、MA 均线、波段与自由标注、滚轮缩放平移），数据来自行情技能（longbridge / hithink）。",
   "keywords": [
     "deepseek",
