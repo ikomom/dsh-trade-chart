@@ -43,6 +43,21 @@ dsh plugin --profile web add git+https://github.com/ikomom/dsh-trade-chart.git
 dsh plugin --profile web add @ikonon/dsh-trade-chart
 ```
 
+## 更新与卸载
+
+```bash
+# 更新到最新版本（git 方式安装自动拉取 master 最新提交；npm 方式按 semver 范围更新，加 --latest 可跨范围升到最新）
+dsh plugin --profile web update @ikonon/dsh-trade-chart
+
+# git 方式若更新后仍停在旧提交（pnpm 偶发不重解析 git 依赖），重新 add 一次强制刷新：
+dsh plugin --profile web add github:ikomom/dsh-trade-chart
+
+# 卸载
+dsh plugin --profile web remove @ikonon/dsh-trade-chart
+```
+
+更新或卸载后，重启 dsh 的 web 进程（`dsh web`）并刷新页面生效。
+
 ## 验证
 
 ```bash
@@ -55,8 +70,6 @@ dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
 ```bash
 node scripts/make-preview.mjs
 ```
-
-重启 dsh 的 web 进程并刷新页面生效。卸载：`dsh plugin --profile web remove @ikonon/dsh-trade-chart`。
 
 ## 使用
 

@@ -45,7 +45,20 @@ dsh plugin --profile web add git+https://github.com/ikomom/dsh-trade-chart.git
 dsh plugin --profile web add @ikonon/dsh-trade-chart
 ```
 
-Restart the dsh web process and refresh the page for changes to take effect. Uninstall: `dsh plugin --profile web remove @ikonon/dsh-trade-chart`.
+## Update & Uninstall
+
+```bash
+# Update to the latest version (git installs pull the newest master commit; npm installs update within the semver range, add --latest to go beyond it)
+dsh plugin --profile web update @ikonon/dsh-trade-chart
+
+# If a git install stays on an old commit after updating (pnpm occasionally fails to re-resolve git deps), re-add once to force a fresh resolution:
+dsh plugin --profile web add github:ikomom/dsh-trade-chart
+
+# Uninstall
+dsh plugin --profile web remove @ikonon/dsh-trade-chart
+```
+
+Restart the dsh web process (`dsh web`) and refresh the page after updating or uninstalling.
 
 ## Verify
 
