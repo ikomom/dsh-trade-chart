@@ -50,7 +50,7 @@ node scripts/verify.mjs                 # 语法 + 宿主/客户端/启动冒烟
 dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
 ```
 
-重新生成示例预览页（`examples/index.html`，提交后可同步到 GitHub Pages）：
+重新生成示例预览页（`docs/index.html`，提交后可同步到 GitHub Pages）：
 
 ```bash
 node scripts/make-preview.mjs

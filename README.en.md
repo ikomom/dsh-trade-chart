@@ -54,7 +54,7 @@ node scripts/verify.mjs                # syntax + host/client/boot smoke (auto-d
 dsh --profile web --dump-config | grep trade-chart   # output means the plugin is mounted
 ```
 
-Regenerate the examples page (`examples/index.html`, commit it to sync the GitHub Pages site):
+Regenerate the examples page (`docs/index.html`, commit it to sync the GitHub Pages site):
 
 ```bash
 node scripts/make-preview.mjs

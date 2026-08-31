@@ -1,5 +1,5 @@
 /* 开发辅助：把真实 client 渲染器（含技术指标/热点/连板）输出为静态 SVG/HTML 示例页，无需重启 DSH。
- * 运行：node scripts/make-preview.mjs [--out examples/index.html]
+ * 运行：node scripts/make-preview.mjs [--out docs/index.html]
  * 原理：以最小 React 桩执行 lib/client.js 的 TradeChartCard，把生成的元素树序列化为 SVG。
  * 输出页为纯静态（无 JS 依赖），可直接挂到 GitHub Pages / 静态托管供他人预览。 */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const outArg = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : null;
-const outFile = outArg || join(root, 'examples', 'index.html');
+const outFile = outArg || join(root, 'docs', 'index.html');
 
 // ---- 环境桩（与 verify.mjs 客户端冒烟一致）----
 globalThis.window = globalThis;
