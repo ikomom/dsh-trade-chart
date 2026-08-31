@@ -1,7 +1,10 @@
 # dsh-trade-chart
 
-[![Release v0.3.0](https://img.shields.io/badge/release-v0.3.0-5B4CF0?style=flat-square)](https://github.com/ikomom/dsh-trade-chart)
+**中文** | [English](./README.en.md)
+
+[![Release v0.3.0](https://img.shields.io/badge/release-v0.3.0-5B4CF0?style=flat-square)](https://github.com/ikomom/dsh-trade-chart/releases/tag/v0.3.0)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0B7285?style=flat-square)](LICENSE)
+[![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-dsh%20plugin-5B4CF0?style=flat-square)](https://github.com/deepseek-ai/deepseek-harness)
 
 **DeepSeek Harness 交易图表插件**：模型调用 `trade_chart` 工具后，K线/折线/柱状/面积图直接渲染在对话流中。纯自绘 SVG，零外部依赖。
 
@@ -18,7 +21,7 @@
 | 连板晋级图 | `type=ladder`：板数×日期天梯，格内显示家数与晋级率（自动计算） |
 | 波段标注 | `pivots: true` 自动标注局部高低点（红三角/绿三角 + 价格） |
 | 自由标注 | `annotations`：pivot / hline / trendline / arrow / rect / note |
-| 交互 | 滚轮缩放（y 轴锁定）、拖动平移、双击/⟲ 复位 |
+| 交互 | 滚轮缩放（y 轴锁定）、拖动平移、双击/⟲ 复位、十字光标（按面板适配：价格/成交量/指标数值） |
 | 大数据量 | >800 根自动聚合；>5000 根拒绝 |
 
 ## 安装
@@ -78,7 +81,11 @@ dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
       "unit": "%"
     },
     "ladder": [                      // type=ladder 必填：连板晋级（按日期升序）
-      { "date": "2026-07-01", "boards": [ { "level": 1, "count": 42 }, { "level": 2, "count": 9 } ] }
+      { "date": "2026-07-01", "boards": [
+        { "level": 1, "count": 42 },
+        { "level": 2, "count": 9 },
+        { "level": 3, "count": 3, "stocks": ["中际旭创", "新易盛", "天孚通信"] }  // 可选：具体连板股票，高板时格内直接展示
+      ] }
     ],
     "pivots": true,                  // K线：自动标注波段高低点
     "pivotLookback": 3,              // 波段检测窗口（左右各 N 根，2-30，默认 3）
@@ -98,7 +105,7 @@ dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
 
 **指标说明**：均线/指标全部基于全量数据计算，缩放平移后仍连续正确；指标值（EMA/BOLL/MACD/RSI/KDJ/MAVOL）同时显示在图例、悬浮提示和模型返回的摘要文本中。MACD 柱 = 2×(DIF−DEA)，RSI 采用 SMA 平滑（与国内行情软件一致），KDJ 默认 (9,3,3)。
 
-**热点矩阵说明**：`values` 行=板块、列=日期；颜色以 0 为中性发散（红涨绿跌，符合 A 股惯例），`null` 显示为灰块。**连板晋级说明**：格内大数字为当日该板数家数；非首板格子下方小字「晋级X% 断Y」= 今日该板家数 ÷ 昨日上一板家数（晋级率）与昨日上一板中断板家数（客户端自动计算）；首板行标注「首板」（新涨停无晋级概念）；悬浮查看明细。
+**热点矩阵说明**：`values` 行=板块、列=日期；颜色以 0 为中性发散（红涨绿跌，符合 A 股惯例），`null` 显示为灰块。**连板晋级说明**：纵轴板数（首板在底、高板在顶），横轴日期；格内大数字为当日该板数家数，下方小字「晋级率 X%」= 今日该板家数 ÷ 昨日上一板家数（客户端自动计算，≥50% 标红）；高板（股票少）时格内**直接列出具体连板股票**（最多 3 只，超出显示 +N只）；首板行标注「首板」（新涨停无晋级概念）；悬浮查看完整股票名单 / 断板数。
 
 ## 目录结构
 
