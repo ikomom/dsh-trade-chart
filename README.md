@@ -8,6 +8,10 @@
 
 **DeepSeek Harness 交易图表插件**：模型调用 `trade_chart` 工具后，K线/折线/柱状/面积图直接渲染在对话流中。纯自绘 SVG，零外部依赖。
 
+## 📊 示例预览
+
+[在线示例页](https://ikomom.github.io/dsh-trade-chart/)：K线（EMA/BOLL/MAVOL/MACD/RSI/KDJ 全指标）、折线/柱状/面积、热点轮动矩阵、连板晋级天梯，全部示例由真实渲染器生成为静态 SVG，浏览器直接打开即可查看（图中数据为演示数据；缩放/平移/十字光标等交互需在 DSH 对话内体验）。
+
 ## 功能
 
 | 能力 | 说明 |
@@ -44,6 +48,12 @@ dsh plugin --profile web add @ikonon/dsh-trade-chart
 ```bash
 node scripts/verify.mjs                 # 语法 + 宿主/客户端/启动冒烟（跨平台自动探测 DSH 目录）
 dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
+```
+
+重新生成示例预览页（`examples/index.html`，提交后可同步到 GitHub Pages）：
+
+```bash
+node scripts/make-preview.mjs
 ```
 
 重启 dsh 的 web 进程并刷新页面生效。卸载：`dsh plugin --profile web remove @ikonon/dsh-trade-chart`。

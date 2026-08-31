@@ -1,6 +1,5 @@
 node_modules/
 pnpm-lock.yaml
 *.log
-preview.html
 .ab-*/
 .dyn/

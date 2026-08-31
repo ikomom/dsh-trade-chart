@@ -8,6 +8,10 @@
 
 A **trading chart plugin for DeepSeek Harness**: after the model calls the `trade_chart` tool, candlestick / line / bar / area charts are rendered directly in the conversation stream — plus technical indicators, sector-rotation heatmaps and limit-up ladders. Pure hand-written SVG, zero external dependencies.
 
+## 📊 Live Examples
+
+[Online examples page](https://ikomom.github.io/dsh-trade-chart/): candlestick with the full indicator set (EMA/BOLL/MAVOL/MACD/RSI/KDJ), line / bar / area, sector-rotation heatmap and limit-up ladder. Every example is rendered by the real renderer into static SVG that opens directly in a browser (chart data is synthetic demo data; zoom / pan / crosshair interaction is meant to be experienced inside a DSH conversation).
+
 ## Features
 
 | Capability | Description |
@@ -48,6 +52,12 @@ Restart the dsh web process and refresh the page for changes to take effect. Uni
 ```bash
 node scripts/verify.mjs                # syntax + host/client/boot smoke (auto-detects the DSH dir)
 dsh --profile web --dump-config | grep trade-chart   # output means the plugin is mounted
+```
+
+Regenerate the examples page (`examples/index.html`, commit it to sync the GitHub Pages site):
+
+```bash
+node scripts/make-preview.mjs
 ```
 
 ## Usage
