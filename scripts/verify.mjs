@@ -99,6 +99,23 @@ try {
     const r2 = await tool.execute({ chart: { type: 'line', series: [{ name: 'a', data: [1, 2, 3] }] } });
     if (typeof r2 === 'string' && r2.includes('已渲染')) ok('execute：折线图');
     else fail('execute 折线异常: ' + String(r2).slice(0, 100));
+    const r3 = await tool.execute({ chart: { type: 'kline', kline, indicators: { macd: true, rsi: [14], boll: true, ema: [12, 26], mavol: [5, 10], kdj: true } } });
+    if (typeof r3 === 'string' && r3.includes('MACD') && r3.includes('RSI14') && r3.includes('BOLL') && r3.includes('KDJ')) ok('execute：技术指标摘要');
+    else fail('execute 指标异常: ' + String(r3).slice(0, 200));
+    const r5 = await tool.execute({ chart: { type: 'heatmap', heatmap: { rows: ['AI', '机器人'], categories: ['07-01', '07-02'], values: [[5.2, 3.1], [-1.5, 2.3]], unit: '%' } } });
+    if (typeof r5 === 'string' && r5.includes('热点') && r5.includes('领涨')) ok('execute：热点轮动矩阵');
+    else fail('execute 热点矩阵异常: ' + String(r5).slice(0, 150));
+    const r6 = await tool.execute({ chart: { type: 'ladder', ladder: [{ date: '2026-07-01', boards: [{ level: 1, count: 42 }, { level: 2, count: 9, stocks: ['东方财富', '中国银河'] }] }, { date: '2026-07-02', boards: [{ level: 1, count: 38 }, { level: 2, count: 11 }] }] } });
+    if (typeof r6 === 'string' && r6.includes('连板') && r6.includes('最高 2 板') && r6.includes('东方财富')) ok('execute：连板晋级（含股票名单）');
+    else fail('execute 连板异常: ' + String(r6).slice(0, 150));
+    try {
+      await tool.execute({ chart: { type: 'heatmap', heatmap: { rows: ['a'], categories: ['x', 'y'], values: [[1]] } } });
+      fail('非法矩阵未被拒绝');
+    } catch (e) { ok('非法矩阵被拒绝'); }
+    try {
+      await tool.execute({ chart: { type: 'kline', kline, indicators: { macd: { fast: 26, slow: 12, signal: 9 } } } });
+      fail('非法指标参数未被拒绝');
+    } catch (e) { ok('非法指标参数被拒绝'); }
     try {
       await tool.execute({ chart: { type: 'kline', kline: Array.from({ length: 5001 }, () => ({ time: 'x', open: 1, high: 1, low: 1, close: 1 })) } });
       fail('5001 根未被拒绝');
@@ -153,6 +170,15 @@ if (!DSH_DEPLOY) {
     const h1 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'kline', kline, pivots: true, annotations: [{ type: 'hline', price: 10, label: '支撑' }] }) }));
     if (h1.includes('<svg') && h1.includes('MA5') && h1.includes('支撑')) ok('K线渲染（标注/均线）');
     else fail('K线渲染异常');
+    const h4 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'kline', kline, indicators: { macd: true, rsi: [14], boll: true, ema: [12, 26], mavol: [5, 10], kdj: true } }) }));
+    if (h4.includes('MACD') && h4.includes('RSI14') && h4.includes('BOLL') && h4.includes('KDJ') && h4.includes('MAVOL5')) ok('K线渲染（技术指标副图/主图）');
+    else fail('指标渲染异常: ' + h4.slice(0, 200));
+    const h5 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'heatmap', heatmap: { rows: ['AI', '机器人'], categories: ['07-01', '07-02'], values: [[5.2, 3.1], [-1.5, 2.3]], unit: '%' } }) }));
+    if (h5.includes('AI') && h5.includes('07-01')) ok('热点矩阵渲染');
+    else fail('热点矩阵渲染异常: ' + h5.slice(0, 200));
+    const h6 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'ladder', ladder: [{ date: '2026-07-01', boards: [{ level: 1, count: 42 }, { level: 2, count: 9, stocks: ['东方财富', '中国银河', '华泰证券'] }] }, { date: '2026-07-02', boards: [{ level: 1, count: 38 }, { level: 2, count: 11 }] }] }) }));
+    if (h6.includes('首板') && h6.includes('2板') && h6.includes('东方财富') && h6.includes('晋级率 26%')) ok('连板晋级渲染（含股票名单与晋级率）');
+    else fail('连板渲染异常: ' + h6.slice(0, 200));
     const h2 = renderToString(React.createElement(out.TradeChartCard, { block: block({ type: 'line', series: [{ name: 'a', data: [1, 2, 3] }] }) }));
     if (h2.includes('<svg')) ok('折线渲染');
     else fail('折线渲染异常');
