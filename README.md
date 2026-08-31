@@ -58,19 +58,6 @@ dsh plugin --profile web remove @ikonon/dsh-trade-chart
 
 更新或卸载后，重启 dsh 的 web 进程（`dsh web`）并刷新页面生效。
 
-## 验证
-
-```bash
-node scripts/verify.mjs                 # 语法 + 宿主/客户端/启动冒烟（跨平台自动探测 DSH 目录）
-dsh --profile web --dump-config | grep trade-chart   # 有输出即挂载成功
-```
-
-重新生成示例预览页（`docs/index.html`，提交后可同步到 GitHub Pages）：
-
-```bash
-node scripts/make-preview.mjs
-```
-
 ## 使用
 
 对话中直接说：「画一下贵州茅台的日K，标出波段高低点」「对比 XX 和 YY 的收盘价走势」「把最近 3 年的周线画出来」「画 XX 的日K，加 MACD 和 RSI 副图、布林带」「画一下最近 10 个交易日热点板块轮动」「把这几天的连板晋级画出来」。
@@ -129,15 +116,6 @@ node scripts/make-preview.mjs
 **指标说明**：均线/指标全部基于全量数据计算，缩放平移后仍连续正确；指标值（EMA/BOLL/MACD/RSI/KDJ/MAVOL）同时显示在图例、悬浮提示和模型返回的摘要文本中。MACD 柱 = 2×(DIF−DEA)，RSI 采用 SMA 平滑（与国内行情软件一致），KDJ 默认 (9,3,3)。
 
 **热点矩阵说明**：`values` 行=板块、列=日期；颜色以 0 为中性发散（红涨绿跌，符合 A 股惯例），`null` 显示为灰块。**连板晋级说明**：纵轴板数（首板在底、高板在顶），横轴日期；格内大数字为当日该板数家数，下方小字「晋级率 X%」= 今日该板家数 ÷ 昨日上一板家数（客户端自动计算，≥50% 标红）；高板（股票少）时格内**直接列出具体连板股票**（最多 3 只，超出显示 +N只）；首板行标注「首板」（新涨停无晋级概念）；悬浮查看完整股票名单 / 断板数。
-
-## 目录结构
-
-```
-lib/index.js      # 宿主端：工具注册、参数校验、波段检测、摘要
-lib/client.js     # 客户端：SVG 图表卡片（渲染/标注/缩放/拖动）
-scripts/verify.mjs  # 推送前验证（pre-push hook 自动运行）
-cordis.patch.yml  # profile 组合补丁
-```
 
 ## License
 

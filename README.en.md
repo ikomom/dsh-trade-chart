@@ -60,19 +60,6 @@ dsh plugin --profile web remove @ikonon/dsh-trade-chart
 
 Restart the dsh web process (`dsh web`) and refresh the page after updating or uninstalling.
 
-## Verify
-
-```bash
-node scripts/verify.mjs                # syntax + host/client/boot smoke (auto-detects the DSH dir)
-dsh --profile web --dump-config | grep trade-chart   # output means the plugin is mounted
-```
-
-Regenerate the examples page (`docs/index.html`, commit it to sync the GitHub Pages site):
-
-```bash
-node scripts/make-preview.mjs
-```
-
 ## Usage
 
 Just say it in the conversation: "Draw the daily candlestick for 600519.SH with swing pivots", "Compare the close trends of XX and YY", "Plot the weekly chart for the last 3 years", "Draw XX's daily chart with MACD and RSI panels and Bollinger Bands", "Show the hot-sector rotation for the last 10 trading days", "Plot the limit-up ladder for the last few days".
@@ -131,15 +118,6 @@ Just say it in the conversation: "Draw the daily candlestick for 600519.SH with 
 **Indicators**: all averages/indicators are computed over the full dataset, so they stay correct after zooming and panning. Indicator values (EMA/BOLL/MACD/RSI/KDJ/MAVOL) appear in the legend, hover tooltip and the model-facing summary. MACD histogram = 2×(DIF−DEA), RSI uses SMA smoothing (matching mainland-China quote software), KDJ defaults to (9,3,3).
 
 **Heatmap**: `values` rows = sectors, columns = dates; colors diverge from 0 (red up / green down, A-share convention), `null` renders as gray. **Ladder**: rows are board counts (first board at the bottom, higher boards at the top), columns are dates; the big number is the day's stock count for that board, the small "promotion rate X%" below = today's count ÷ yesterday's one-lower-board count (auto-computed, ≥50% in red); high boards with few stocks list the **concrete limit-up stocks** in the cell (up to 3, "+N more" if more); the first-board row is labeled "首板/1st board" (new limit-ups, no promotion); hover for the full stock list / broken-board count.
-
-## Project structure
-
-```
-lib/index.js      # Host: tool registration, param validation, swing detection, summary
-lib/client.js     # Client: SVG chart cards (render / annotate / zoom / pan)
-scripts/verify.mjs  # Pre-push verification (runs automatically via pre-push hook)
-cordis.patch.yml  # profile composition patch
-```
 
 ## License
 
